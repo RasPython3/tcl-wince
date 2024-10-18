@@ -3674,9 +3674,14 @@ echo $ECHO_N "checking compiler flags... $ECHO_C" >&6
     if test "${GCC}" = "yes" ; then
 	SHLIB_LD=""
 	SHLIB_LD_LIBS='${LIBS}'
-	LIBS="-lnetapi32 -lkernel32 -luser32 -ladvapi32 -luserenv -lws2_32"
-	# mingw needs to link ole32 and oleaut32 for [send], but MSVC doesn't
-	LIBS_GUI="-lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32 -luuid -lole32 -loleaut32"
+  if test "$doWince" == "no" ; then
+	  LIBS="-lnetapi32 -lkernel32 -luser32 -ladvapi32 -luserenv -lws2_32"
+	  # mingw needs to link ole32 and oleaut32 for [send], but MSVC doesn't
+	  LIBS_GUI="-lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32 -luuid -lole32 -loleaut32"
+  else
+    LIBS="-lcoredll -lws2"
+    LIBS_GUI="-lcommctrl -lcommdlg"
+  fi
 	STLIB_LD='${AR} cr'
 	RC_OUT=-o
 	RC_TYPE=
